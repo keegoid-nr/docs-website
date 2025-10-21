@@ -1952,7 +1952,7 @@ While they are less resource-intensive, a high volume of ping jobs, especially f
 
   * **Resource model:** Ping jobs utilize worker threads, not dedicated CPU cores. The core-per-job calculation does not apply to them.
   * **Timeout and retry:** A failing ping job can occupy a worker thread for up to **60 seconds**. It first attempts an HTTP HEAD request (30-second timeout). If that fails, it immediately retries with an HTTP GET request (another 30-second timeout).
-  * **Scaling:** Although the sizing formula is different, the same principles apply. To handle a large volume of ping jobs, you may need to scale up your host's resources or scale out by deploying more job managers to keep the `pingJobs` queue clear and prevent delays.
+  * **Scaling:** Although the sizing formula is different, the same principles apply. To handle a large volume of ping jobs and keep the `pingJobs` queue from growing, you may need to scale up and/or scale out. Scaling up means increasing cpu and memory resources per host or namespace. Scaling out means adding more instances of the ping runtime. This can be done by deploying more job managers on more hosts, in more namespaces, or even [within the same namespace](/docs/synthetics/synthetic-monitoring/private-locations/job-manager-configuration#scaling-out-with-multiple-sjm-instances). Alternatively, the `ping-runtime` in Kubernetes allows you to set [a larger number of replicas](https://github.com/newrelic/helm-charts/blob/41c03e287dafd41b9c914e5a6c720d5aa5c01ace/charts/synthetics-job-manager/values.yaml#L173) per deployment.
 
 ### Kubernetes and OpenShift [#k8s]
 
